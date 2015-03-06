@@ -217,10 +217,10 @@
     line: "{{ oracle_db_name }}:{{ ora_user_env.ORACLE_HOME }}:Y"
 
 - name: compose the oracle init.d script
-  template: src=oracle_init.j2 dest=/etc/init.d/oracle mode=0755
+  template: src=oracle_12c_init.j2 dest=/etc/init.d/dbora mode=0755
 
 - name: register and start up the oracle service
-  service: name=oracle state=restarted enabled=yes
+  service: name=dbora state=restarted enabled=yes
 
 - name: compose the oracle user creation script
   template:

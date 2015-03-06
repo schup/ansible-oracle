@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# {{ ansible_managed }}
+# chkconfig: 345 99 10
+# description: Start/Stop Oracle Database 12c on RHEL6
+#
+# Set ORA_HOME to be equivalent to the $ORACLE_HOME
+# from which you wish to execute dbstart and dbshut;
+#
+# Set ORA_OWNER to the user id of the owner of the 
+# Oracle database in ORA_HOME.
+export PATH=$PATH:/usr/local/bin
+# path to oracle home (needed only to check if dbstart exists)
+export ORA_HOME={{ ora_user_env.ORACLE_HOME }}
+# this is the user who installed oracle
+export ORA_OWNER={{ oracle_user }}
+
+if [ ! -f $ORA_HOME/bin/dbstart ]
+then
+    echo "Oracle startup: cannot start"
+    exit
+fi
+
+case "$1" in
+    'start')
+        # Start the Oracle database and listener:
+        # Remove "&" if you don't want startup as a background process.
+        export ORACLE_SID={{ ora_user_env.ORACLE_SID }}
+        export ORAENV_ASK=NO
+        . /usr/local/bin/oraenv
+        # at this point we have $ORACLE_HOME env variable set
+        su $ORA_OWNER -c "dbstart $ORACLE_HOME" &
+        touch /var/lock/subsys/dbora
+        ;;
+    'stop')
+        # Stop the Oracle database and listener:
+        export ORACLE_SID={{ ora_user_env.ORACLE_SID }}
+        export ORAENV_ASK=NO
+        . /usr/local/bin/oraenv
+        su $ORA_OWNER -c "dbshut $ORACLE_HOME"
+        rm -f /var/lock/subsys/dbora
+        ;;
+esac
+
+exit 0
