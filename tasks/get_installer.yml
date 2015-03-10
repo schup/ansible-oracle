@@ -9,5 +9,11 @@
   register: installer_check
   failed_when: "installer_check.stdout.find('{{ checksum }}') != 0"
 
+- name: last filename in zipfile
+  shell: jar -tf {{installer}} | tail -1
+  args:
+    chdir: "{{oracle_tmp}}"
+  register: lastfile
+
 - name: unzip installer
-  unarchive: src={{ oracle_tmp }}/{{ installer }} dest={{ oracle_tmp }} copy=no
+  unarchive: src={{ oracle_tmp }}/{{ installer }} dest={{ oracle_tmp }} copy=no creates="{{oracle_tmp}}/{{lastfile}}"
