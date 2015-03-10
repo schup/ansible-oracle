@@ -11,11 +11,11 @@
 # Oracle database in ORA_HOME.
 export PATH=$PATH:/usr/local/bin
 # path to oracle home (needed only to check if dbstart exists)
-export ORA_HOME={{ ora_user_env.ORACLE_HOME }}
+export ORACLE_HOME={{ ora_user_env.ORACLE_HOME }}
 # this is the user who installed oracle
 export ORA_OWNER={{ oracle_user }}
 
-if [ ! -f $ORA_HOME/bin/dbstart ]
+if [ ! -f $ORACLE_HOME/bin/dbstart ]
 then
     echo "Oracle startup: cannot start"
     exit
