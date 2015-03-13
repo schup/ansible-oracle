@@ -122,6 +122,7 @@
 
 - name: disable setenforce # because oracle says so, that's why
   command: /usr/sbin/setenforce 0
+  ignore_errors: yes
 
 - name: oracle-recommended selinux
   selinux: policy=targeted state=disabled
