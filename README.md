@@ -9,7 +9,7 @@ recommendations.
 
 - CentOS 6.4+
 - Ansible 1.4
-- Oracle Database 12gc [installation content](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html)
+- Oracle Database 12c [installation content](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html)
 
 ## Variables
 
