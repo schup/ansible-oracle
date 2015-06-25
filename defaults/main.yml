@@ -18,8 +18,8 @@ oracle_path: /opt/oracle_app
 # ORACLE_SID
 oracle_db_name: db
 
-# ORACLE_HOME basename, {{ oracle_path }}/oracle/product/11.2.0/{{ oracle_db_home }}
-oracle_db_home: oracle_db_home
+# ORACLE_HOME basename, {{ oracle_path }}/oracle/product/12.1.0/{{ oracle_db_home }}
+oracle_db_home: db_home
 
 # initial db user
 oracle_db_user: oracle
@@ -64,7 +64,7 @@ oracle_installer_uri: http://oracle.installer.host
 #   will automatically skip the downloading step.
 # - if you've already extracted everything, set the vars below to false. your
 #   extracted installer directory should be {{ oracle_tmp }}/database.
-oracle_installer1: linux.x64_11gR2_database_1of2.zip
-oracle_installer2: linux.x64_11gR2_database_2of2.zip
-oracle_checksum1: 3152418844
-oracle_checksum2: 3669256139
+oracle_installer1: linuxamd64_12102_database_1of2.zip 
+oracle_installer2: linuxamd64_12102_database_2of2.zip
+oracle_checksum1: 839029806
+oracle_checksum2: 1187131466
