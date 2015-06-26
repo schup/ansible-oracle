@@ -48,7 +48,6 @@
 #
 # unpack the oracle installers
 #
-
 - include: get_installer.yml
   when: oracle_installer1 != false
   vars:
@@ -99,7 +98,7 @@
     - { name: "net.core.wmem_max", value: "1048576" }
 
 - name: save sysctl config
-  command: sysctl -p
+  command: sysctl -e -p
   ignore_errors: yes # because apparently the default centos config is invalid!
 
 # it's in the oracle recommendations. i don't even know.
@@ -172,6 +171,7 @@
     - "export PATH=$PATH:$ORACLE_HOME/bin"
     - "export NLS_LANG={{ ora_user_env.NLS_LANG }}"
     - "stty erase ^H"
+    - "echo ORACLE_HOME=${ORACLE_HOME}"
 
 #
 # install oracle
@@ -203,6 +203,25 @@
 - name: db-specific oracle post-installation
   command: "{{ ora_user_env.ORACLE_HOME }}/root.sh"
   when: not oracle_installed.stat.exists
+
+# FIXME create listener only if it doesn't exist, optional
+- name: setup listener.ora
+  template:
+    src: listener.ora.j2
+    dest: "{{ ora_user_env.ORACLE_HOME }}/network/admin/listener.ora"
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
+  tags:
+    - listener
+
+- name: setup tnsnames.ora
+  template:
+    src: tnsnames.ora.j2
+    dest: "{{ ora_user_env.ORACLE_HOME }}/network/admin/tnsnames.ora"
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
+  tags:
+    - listener    
 
 - name: turn off the enterprise manager web console
   sudo_user: "{{ oracle_user }}"

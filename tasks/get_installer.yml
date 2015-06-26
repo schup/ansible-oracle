@@ -1,4 +1,7 @@
 ---
+- name: create oracle temp dir for installer
+  file: path={{ oracle_tmp }} state=directory mode=0775
+
 - name: get oracle installer
   get_url:
     url: "{{ oracle_installer_uri }}/{{ installer }}"

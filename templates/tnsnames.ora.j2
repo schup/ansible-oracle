@@ -1,0 +1,16 @@
+# tnsnames.ora Network Configuration File: {{ ora_user_env.ORACLE_HOME }}/network/admin/tnsnames.ora
+
+{{ oracle_db_name }} =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+#        {% for ip in ansible_all_ipv4_addresses|sort -%}
+#  {{ nl }}        (ADDRESS = (PROTOCOL = TCP)(HOST = {{ ip }})(PORT = 1521))
+#        {%- endfor %}
+#  {{ nl }}
+      (ADDRESS = (PROTOCOL = TCP)(HOST = {{ ansible_default_ipv4 }})(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
